@@ -1,0 +1,176 @@
+import React from 'react'
+import { useState } from 'react';
+import { Link,useNavigate } from 'react-router-dom';
+import {
+  Button,
+  Row,
+  Col,
+  Form,
+  Image,
+  FloatingLabel, 
+} from 'react-bootstrap';
+
+import logo from '../assets/logo-tall.png';
+
+export default function SignIn() {
+  const [validated, setValidated] = useState(false);
+
+  const [username, setUsername] = useState('');
+  const [password, setPassword] = useState('');
+  const [ShowSignUp,setShowSignUp]=useState(false)
+
+  const navigate = useNavigate();
+
+  const handleSubmit = (event) => {
+    const form = event.currentTarget;
+    if (form.checkValidity() === false) {
+      event.preventDefault();
+      event.stopPropagation();
+    } else {
+        if (username === 'username' && password === 'password') {
+            console.log("Login Successful")
+            navigate('/');
+           
+        }
+        setValidated(true);
+    }
+  };
+
+  const handleSignUp = () => {
+    setShowSignUp(!ShowSignUp);
+    console.log("bayak")
+  }
+
+  return (
+    <div className='bg-primary container-fluid d-flex justify-content-center align-items-center sign-in-container'>
+      <div className="bg-light p-3 border rounded-3 border-primary sign-in">
+      <Link to="/" ><Image src={logo} style={{width:'150px',height:'40px',cursor:'pointer' ,opacity:'0.95'}}/></Link>
+        <Form noValidate validated={validated} onSubmit={handleSubmit} className='p-3'>
+          <Row className="mt-1 p-0 pt-3 pb-3" md={1} lg={1}>
+           <Col>
+                <Form.Group as={Col} controlId="validationCustom01" className="p-3 pt-0 pb-0">
+                    {/* <Form.Label>Username</Form.Label> */}
+                    <FloatingLabel
+                        label="Username"
+                        className="p-0 mb-1"
+                    >
+                    <Form.Control
+                        required
+                        type="text"
+                        placeholder="Username"
+                        value={username}
+                        onChange={(e) => setUsername(e.target.value)}
+                    />
+                    </FloatingLabel>
+                </Form.Group>
+           </Col>
+          </Row>
+
+            {ShowSignUp && (
+                <Row xs={2} sm={2} className='p-3'>
+                    <Col>
+                        <Form.Group controlId="validationCustom">
+                            <FloatingLabel
+                                label="Email"
+                                className="p-0 mb-1"
+                            >
+                            <Form.Control
+                                required
+                                type="text"
+                                placeholder="Email"
+                            />
+                            </FloatingLabel>
+                        </Form.Group>
+                    </Col>
+                    <Col>
+                        <Form.Group controlId="validationCustom">
+                            <FloatingLabel
+                                label="Email"
+                                className="p-0 mb-1"
+                            >
+                            <Form.Control
+                                required
+                                type="date"
+                                placeholder=''
+                            />
+                            </FloatingLabel>
+                        </Form.Group>
+                    </Col>
+                    <Col>
+                        <Form.Group controlId="validationCustom">
+                            <FloatingLabel
+                                label="Weight In KG"
+                                className="p-0 mb-1"
+                            >
+                            <Form.Control
+                                required
+                                type="text"
+                            />
+                            </FloatingLabel>
+                        </Form.Group>
+                    </Col>
+                    <Col>
+                        <Form.Group controlId="validationCustom">
+                            <FloatingLabel
+                                label="Height In CM"
+                                className="p-0 mb-1"
+                            >
+                            <Form.Control
+                                required
+                                type="text"
+                            />
+                            </FloatingLabel>
+                        </Form.Group>
+                    </Col>
+                    <Col>
+                    <FloatingLabel controlId="floatingSelect" label="Gender">
+                    <Form.Select aria-label="Floating label select example">
+                        <option value="1">Male</option>
+                        <option value="2">Female</option>
+                    </Form.Select>
+                    </FloatingLabel>
+                    </Col>
+                    <Col>
+                    <FloatingLabel controlId="floatingSelect" label="Goal">
+                    <Form.Select aria-label="Floating label select example">
+                        <option value="1">Loose Weight</option>
+                        <option value="2">Gain Weight</option>
+                        <option value="3">Add Muscle</option>
+                    </Form.Select>
+                    </FloatingLabel>
+                    </Col>
+                </Row>
+            )
+            }
+
+          <Row className="mt-1 p-0 pt-3 pb-3"  md={1} lg={1}>
+            <Col>
+                <Form.Group as={Col} controlId="validationCustom02" className="p-3 pt-0 pb-0">
+                <FloatingLabel
+                        label="Password"
+                        className="p-0 mb-1"
+                    >
+                    <Form.Control
+                        required
+                        type="password"
+                        placeholder="Password"
+                        value={password}
+                        onChange={(e) => setPassword(e.target.value)}
+                    />
+                </FloatingLabel>
+                </Form.Group>
+            </Col>
+          </Row>
+            <div className='d-flex justify-content-between align-items-center mt-3'>
+                <div className="sign-up-switch text-center">
+                    Not Registered? <br/><span onClick={handleSignUp}>Sign UP</span> 
+                </div>
+                {ShowSignUp===false && <Button type="submit" variant="outline-primary" size="sm" className=''>Sign In</Button>}
+                {ShowSignUp===true && <Button type="submit" variant="outline-primary" size="sm" className=''>Register</Button>}
+            </div>
+        </Form>
+
+      </div>
+    </div>
+  )
+}

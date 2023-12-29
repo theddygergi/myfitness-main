@@ -1,0 +1,19 @@
+.sign-in-container{
+    min-height: 100vh;
+    width: 100%;
+    .sign-in{
+        min-width: 0%;
+    }
+    .sign-up-switch{
+        font-size: 13px;
+        span {
+            margin-top: 3px;
+            color: #EB1D25;
+            cursor: pointer;
+        }
+        span:hover {
+            font-weight: 700;
+            transition: 0.7s;
+        }
+    }
+}
