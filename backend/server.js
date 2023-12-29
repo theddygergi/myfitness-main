@@ -1,5 +1,6 @@
 const express = require('express');
-const sqlite3 = require('sqlite3').verbose();
+const sqlite3 = require('sqlite3');
+const bodyparser = require('body-parser');
 const cors = require('cors');
 const corsOptions = {
     origin: '*',
@@ -12,8 +13,13 @@ const corsOptions = {
 const app = express();
 const port = 8081;
 
-const db = new sqlite3.Database('C:/Users/eddyg/OneDrive/Desktop/myfitness-main/backend/myfitness1.db');
+const db = new sqlite3.Database('C:/Users/eddyg/OneDrive/Desktop/myfitness-main/backend/myfitness.db');
+app.use(express.json());
 app.use(cors(corsOptions));
+
+const calculateBMI = (height, weight) => {
+    return parseFloat(weight / height * height * (0.0001))
+}
 
 app.get('/api/data', (req, res) => {
     db.all('SELECT * FROM exercise', (err, rows) => {
@@ -25,6 +31,18 @@ app.get('/api/data', (req, res) => {
         }
     });
 });
+
+app.get('/api/exongoal', (req, res) => {
+    db.all('SELECT exercisename, exercisetype, exercisenbOfSets, exerciseNbOfReps FROM exercise JOIN workout ON exercise.workoutid = workout.workoutid JOIN goal ON workout.goalid = goal.goalID WHERE goal.goalid = 2', (err, rows) => {
+        if (err) {
+            console.error(err);
+            res.status(500).json({ error: 'Internal Server Error' });
+        } else {
+            res.json(rows);
+        }
+    });
+
+})
 
 app.get('/api/users', (req, res) => {
     db.all('SELECT * FROM user', (err, rows) => {
@@ -39,23 +57,20 @@ app.get('/api/users', (req, res) => {
 
 
 app.post('/api/signup', (req, res) => {
-    const name = req.body.username;
-    const email = req.body.email;
-    const password = req.body.password;
-    const weight = req.body.weight;
-    const height = req.body.height;
-    const gender = req.body.gender;
-
-    db.query('INSERT INTO user (userName, userEmail, userPassword, userGender, userHeight, userWeight, userGoalID) VALUES (?, ?, ?, ?, ?, ?, ?)', [name, email, password, gender, parseFloat(height), parseFloat(weight), 2], (err) => {
+    console.log(req.body);
+    const {name, email, password, gender, height, weight, goalID} = req.body;
+    const BMI = calculateBMI(weight,height);
+    db.run('INSERT INTO user (username, useremail, userpassword, usergender, userheight, userweight, userbmi, goalid) VALUES (?, ?, ?, ?, ?, ?, ?, ?)', [name, email, password, gender, height, weight, BMI ,goalID], (err) => {
         if (err) {
             console.error(err.message);
-            res.status(500).json({ error: 'Internal Server Error' });
+            console.log(err.message);       
         } else {
             console.log('User registered successfully');
             res.status(200).json({ message: 'User registered successfully' });
         }
     });
     
+
 })
 
 

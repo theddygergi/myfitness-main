@@ -8,24 +8,19 @@ const SignUp = () => {
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
   const [email, setEmail] = useState("");
-  const [weight, setWeight] = useState("");
-  const [height, setHeight] = useState("");
+  const [weight, setWeight] = useState(0);
+  const [height, setHeight] = useState(0);
   const [gender, setGender] = useState("");
   const [error, setError] = useState("");
 
   const handleSubmitSignUp = async (event) => {
     event.preventDefault();
-    let parsew = parseFloat(weight);
-    let parseh = parseFloat(height);
     try {
       const response = await axios.post("http://localhost:8081/api/signup", {
         params: {
           username,
           email,
           password,
-          parsew,
-          parseh,
-          gender,
         },
       });
 

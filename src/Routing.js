@@ -7,7 +7,7 @@ import Plans from './page/Plans'
 import Profile from './page/Profile';
 import SignIn from './page/SignIn'
 import NotFound from './page/NotFound';
-import SignUp from './page/SignUp.jsx';
+import SignUp from './page/signup1.jsx';
 
 const Routing = () => {
   return (
