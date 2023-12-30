@@ -8,7 +8,7 @@ export default function Classes() {
 
   const fetchData = async () => {
     try {
-      const response = await axios.get('http://localhost:8081/api/classes');
+      const response = await axios.get(`http://localhost:8081/api/classes/`);
       setClasses(response.data);
     } catch (error) {
       console.error('Error fetching data:', error);

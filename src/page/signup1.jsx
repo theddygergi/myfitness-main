@@ -26,6 +26,8 @@ function SignUp() {
       const response = await axios.post('http://localhost:8081/api/signup', formData);
       console.log(response.data);
       navigate('/sign-in');
+      localStorage.setItem('username',formData.name);
+      localStorage.setItem('goalID', formData.goalID);
     } catch (error) {
       console.error('Error posting data:', error);
     }

@@ -9,6 +9,7 @@ import { BiSolidUserCircle } from "react-icons/bi";
 
 
 export default function UserProfile() {
+  const username = localStorage.getItem('username');
   return (
     <div className='user-profile'>
         <div className="user-information">
@@ -16,7 +17,7 @@ export default function UserProfile() {
             bg-white border rounded
             information information-row01"
             >
-                <div className='text-center '><BiSolidUserCircle/><p className='h5'>username</p></div>
+                <div className='text-center '><BiSolidUserCircle/><p className='h5'>{username}</p></div>
                 <div className="information"></div>
             </div>
         </div>

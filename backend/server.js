@@ -32,8 +32,9 @@ app.get('/api/data', (req, res) => {
     });
 });
 
-app.get('/api/exongoal', (req, res) => {
-    db.all('SELECT exercisename, exercisetype, exercisenbOfSets, exerciseNbOfReps FROM exercise JOIN workout ON exercise.workoutid = workout.workoutid JOIN goal ON workout.goalid = goal.goalID WHERE goal.goalid = 2', (err, rows) => {
+app.get('/api/exongoal/:id', (req, res) => {
+    const id = req.params.id; // Use req.params.id to get the value of the route parameter
+    db.all('SELECT exercisename, exercisetype, exercisenbOfSets, exerciseNbOfReps FROM exercise JOIN workout ON exercise.workoutid = workout.workoutid JOIN goal ON workout.goalid = goal.goalID WHERE goal.goalid = ?', [parseInt(id)], (err, rows) => {
         if (err) {
             console.error(err);
             res.status(500).json({ error: 'Internal Server Error' });
@@ -41,8 +42,8 @@ app.get('/api/exongoal', (req, res) => {
             res.json(rows);
         }
     });
+});
 
-})
 
 app.get('/api/classes', (req, res) => {
     db.all('SELECT * FROM class', (err, rows) => {
@@ -81,8 +82,6 @@ app.post('/api/signup', (req, res) => {
             res.status(200).json({ message: 'User registered successfully' });
         }
     });
-    
-
 })
 
 
@@ -120,6 +119,22 @@ app.get('/api/goal/:username', (req, res) => {
             }
         }
     );
+});
+
+
+app.get('/api/mealplan/:id', (req, res) => {
+    const id = req.params.id; 
+    
+    db.all('SELECT * FROM hasfood JOIN food ON hasfood.foodid = food.foodid JOIN nutritionplan ON hasfood.planid = nutritionplan.planid WHERE hasfood.planid = ?', [parseInt(id)], (err, rows) => {
+        if (err) {
+            console.error(err.message);
+            res.status(500).json({ success: false, message: 'Internal Server Error' });
+        } else if (rows.length > 0) {
+            res.json({ success: true, data: rows }); 
+        } else {
+            res.status(404).json({ success: false, message: 'Plan not found' });
+        }
+    });
 });
 
 
