@@ -1,14 +1,21 @@
-import React from 'react'
+import React, { useEffect, useState } from 'react';
+import Header from './global/Header';
+import Footer from './global/Footer';
+import axios from 'axios';
+import { useNavigate } from 'react-router-dom';
 
-import Header from './global/Header'
-import Footer from './global/Footer'
+const Home = ({ username }) => {
+  const navigate = useNavigate();
 
-export default function Home() {
-  const trueBool=true;
   return (
     <div className='home-page'>
       <Header ofPage="home" />
-      <Footer/>
+      <div>
+        Hello, {username}, welcome!
+      </div>
+      <Footer />
     </div>
-  )
-}
+  );
+};
+
+export default Home;

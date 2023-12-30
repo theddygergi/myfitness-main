@@ -44,6 +44,18 @@ app.get('/api/exongoal', (req, res) => {
 
 })
 
+app.get('/api/classes', (req, res) => {
+    db.all('SELECT * FROM class', (err, rows) => {
+        if (err) {
+            console.error(err);
+            res.status(500).json({ error: 'Internal Server Error' });
+        } else {
+            res.json(rows);
+        }
+    });
+
+})
+
 app.get('/api/users', (req, res) => {
     db.all('SELECT * FROM user', (err, rows) => {
         if (err) {
@@ -91,6 +103,25 @@ app.get('/api/signin', (req, res) => {
         }
     });
 });
+
+app.get('/api/goal/:username', (req, res) => {
+    const user = req.params.username;
+    db.all(
+        'SELECT * from user WHERE user.usermail = ?'
+        [user],
+        (err, rows) => {
+            if (err) {
+                console.error(err.message);
+                res.status(500).json({ success: false, message: 'Internal Server Error' });
+            } else if (rows.length > 0) {
+                res.json({ success: true, data: rows }); 
+            } else {
+                res.status(404).json({ success: false, message: 'User not found' });
+            }
+        }
+    );
+});
+
 
 
 app.get('/', (req, res) => {

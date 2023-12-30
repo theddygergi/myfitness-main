@@ -1,7 +1,9 @@
 import React, { useState } from 'react';
 import axios from 'axios';
+import { useNavigate } from 'react-router-dom';
 
 function SignUp() {
+  const navigate = useNavigate();
   const [formData, setFormData] = useState({ 
     name: '', 
     email: '',
@@ -23,6 +25,7 @@ function SignUp() {
     try {
       const response = await axios.post('http://localhost:8081/api/signup', formData);
       console.log(response.data);
+      navigate('/sign-in');
     } catch (error) {
       console.error('Error posting data:', error);
     }

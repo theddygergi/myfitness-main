@@ -25,6 +25,7 @@ const SignIn = ({ onSignIn }) => {
       if (response.data.success) {
           setError(null);
           navigate('/');
+          onSignIn(username);
           
       } else {
           setError("Invalid username or password");

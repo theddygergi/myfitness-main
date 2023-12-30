@@ -6,7 +6,7 @@ export default function NotFound() {
   return (
     <div className='notfound-page'>
       <Header />
-      <p>Oh nauuur, page not found</p>
+      <p>Oh noo, page not found</p>
     </div>
   )
 }
