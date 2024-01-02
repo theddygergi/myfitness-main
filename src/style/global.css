@@ -10,14 +10,6 @@ body {  margin: 0;
   color: #f8f9fa;
 }
 
-/* hr{
-  margin: 0;
-  padding:0;
-  width:0%;
-  border-width:1px;
-  animation: load ease-in-out 1s forwards;
-  margin-right:2.5%
-} */
 .hr-wrapper{
   display: flex;
   justify-content: center;
@@ -45,7 +37,24 @@ body {  margin: 0;
   to{
       width:100%;
   }
-}w
+}
+
+.sign-header-item-close svg:hover {
+  animation: pulse 1s ease-in-out infinite;
+}
+.pulse:hover{
+  animation: pulse 1s ease-in-out infinite;
+}
+@keyframes pulse {
+  0%, 100% {
+    transform: scale(1);
+    opacity: 0.95;
+  }
+  50% {
+    transform: scale(1.1);
+    opacity: 1;
+  }
+}
 
 /*Header*/
 .header-wrapper{

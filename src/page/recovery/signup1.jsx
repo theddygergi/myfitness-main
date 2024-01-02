@@ -12,11 +12,11 @@ function SignUp() {
     height: '',
     weight: '',
     goalID: ''
+  });
+  const [error, setError] = useState("");
 
-});
-
-    const handleInputChange = (e) => {
-        setFormData(prevState => ({ ...prevState, [e.target.name]: e.target.value }));
+  const handleInputChange = (e) => {
+      setFormData(prevState => ({ ...prevState, [e.target.name]: e.target.value }));
   };
   
 

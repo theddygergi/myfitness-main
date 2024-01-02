@@ -13,12 +13,12 @@ const corsOptions = {
 const app = express();
 const port = 8081;
 
-const db = new sqlite3.Database('C:/Users/eddyg/OneDrive/Desktop/myfitness-main/backend/myfitness.db');
+const db = new sqlite3.Database('/Users/dynamiceye/Documents/GitHub/myfitness-main/backend/myfitness.db');
 app.use(express.json());
 app.use(cors(corsOptions));
 
 const calculateBMI = (height, weight) => {
-    return parseFloat(weight / height * height * (0.0001))
+    return parseFloat(weight / height * height * (0.01))
 }
 
 app.get('/api/data', (req, res) => {
@@ -71,9 +71,9 @@ app.get('/api/users', (req, res) => {
 
 app.post('/api/signup', (req, res) => {
     console.log(req.body);
-    const {name, email, password, gender, height, weight, goalID} = req.body;
-    const BMI = calculateBMI(weight,height);
-    db.run('INSERT INTO user (username, useremail, userpassword, usergender, userheight, userweight, userbmi, goalid) VALUES (?, ?, ?, ?, ?, ?, ?, ?)', [name, email, password, gender, height, weight, BMI ,goalID], (err) => {
+    const {sname, semail, spassword, sheight, sweight, sgender,  sgoalID} = req.body;
+    const BMI = calculateBMI(sweight,sheight);
+    db.run('INSERT INTO user (username, useremail, userpassword, usergender, userheight, userweight, userbmi, goalid) VALUES (?, ?, ?, ?, ?, ?, ?, ?)', [sname, semail, spassword, sgender, sheight, sweight, BMI ,sgoalID], (err) => {
         if (err) {
             console.error(err.message);
             console.log(err.message);       
@@ -83,8 +83,6 @@ app.post('/api/signup', (req, res) => {
         }
     });
 })
-
-
 
 
 app.get('/api/signin', (req, res) => {
@@ -140,7 +138,7 @@ app.get('/api/mealplan/:id', (req, res) => {
 
 
 app.get('/', (req, res) => {
-    res.send('Hello from the server!');
+    res.send('Baby, this is what we came for');
 });
 
 app.listen(port, () => {

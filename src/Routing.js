@@ -5,8 +5,8 @@ import Classes from './page/Classes';
 import Plans from './page/Plans';
 import Profile from './page/Profile';
 import SignIn from './page/SignIn';
+import SignUp from './page/SignUp';
 import NotFound from './page/NotFound';
-import SignUp from './page/signup1.jsx';
 
 const Routing = () => {
   const [user, setUser] = useState(null);
@@ -18,11 +18,11 @@ const Routing = () => {
   return (
     <Router>
       <Routes>
-        <Route path="/" element={<Home username={user} />} />
+        <Route path="/" element={<Home />} />
         <Route path="/classes" element={<Classes />} />
         <Route path="/plans" element={<Plans />} />
         <Route path="/profile" element={<Profile />} />
-        <Route path="/sign-in" element={user ? <Navigate to="/" /> : <SignIn onSignIn={handleSignIn} />} />
+        <Route path="/sign-in" element={<SignIn />} />
         <Route path="/sign-up" element={<SignUp />} />
         <Route path="*" element={<NotFound />} />
       </Routes>

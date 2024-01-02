@@ -1,133 +1,199 @@
-import React, { useState } from "react";
-import { Form, Button, Container } from "react-bootstrap";
 import axios from "axios";
-import { useNavigate } from "react-router-dom";
+import React, { useState } from "react";
+import { useNavigate,Link } from "react-router-dom";
+import { Form, FloatingLabel, Button, Container, Col , Row, Image } from "react-bootstrap";
 
-const SignUp = () => {
+
+import logo from '../assets/logo-tall.png';
+import { FaDoorClosed } from "react-icons/fa6";
+
+export default function SignUp({comeBackToSignIn,stateComeBackToSignIn}) {
   const navigate = useNavigate();
-  const [username, setUsername] = useState("");
-  const [password, setPassword] = useState("");
-  const [email, setEmail] = useState("");
-  const [weight, setWeight] = useState(0);
-  const [height, setHeight] = useState(0);
-  const [gender, setGender] = useState("");
+  const [formData, setFormData] = useState({ 
+    sname: '', 
+    semail: '',
+    spassword: '',
+    sheight: '',
+    sweight: '',
+    sgender: '',
+    sgoalID: ''
+  });
+
   const [error, setError] = useState("");
 
-  const handleSubmitSignUp = async (event) => {
-    event.preventDefault();
-    try {
-      const response = await axios.post("http://localhost:8081/api/signup", {
-        params: {
-          username,
-          email,
-          password,
-        },
-      });
+  const handleInputChange = (e) => {
+    setFormData(prevState => ({ ...prevState, [e.target.name]: e.target.value }));
+  };
 
-      if (response.data.success) {
-        setError(null);
-        navigate("/");
-      } else {
-        setError("Registration failed");
-      }
+  const handleSubmitSignUp = async (e) => {
+    console.log("button presssed")
+    e.preventDefault();
+    try {
+      const response = await axios.post('http://localhost:8081/api/signup', formData);
+      console.log(formData)
+      console.log("sign up successful")
+      console.log(response.data);
+      setError(null);
+      localStorage.setItem('username',formData.sname);
+      localStorage.setItem('goalID', formData.sgoalID);
+      navigate('/sign-in')
     } catch (error) {
-      console.log("Error during registration:", error.message);
-      setError("An error occurred during registration");
+      console.error('Error posting data:', error);
+      setError("Error in sign up process");
     }
   };
 
+  const handleNavigateHome = () => {
+    navigate('/');
+  }
+
   return (
-    <Container>
-      <Form onSubmit={handleSubmitSignUp} className="mt-5">
-        <Form.Group controlId="formBasicUsername">
-          <Form.Label>Username</Form.Label>
-          <Form.Control
-            type="text"
-            placeholder="Enter your username"
-            value={username}
-            name="username"
-            onChange={(e) => setUsername(e.target.value)}
-            required
-            aria-label="Username"
-          />
-        </Form.Group>
+    <Container fluid className="sign-container bg-primary vh-100 d-flex align-items-center justify-content-center" >
+      <Row sm={1} className="sign-row bg-light border rounded p-5">
+        <Col className="sign-header d-flex justify-content-between align-items-center">
+          <div className="sign header-item header-logo pulse"><Link to="/" ><Image src={logo} style={{width:'150px',height:'40px',cursor:'pointer' ,opacity:'0.95'}}/></Link></div>
+          <div className="sign-header-item sign-header-item-close"><Button onClick={(()=>(handleNavigateHome()))} size='lg' variant="outline-primary" className="bg-transparent border-0 text-primary opacity-transition"><FaDoorClosed style={{width:'20px',height:'20px' ,opacity:'0.95'}}/></Button></div>
+        </Col>
+        <Col className="sign-up p-3">
+          <Form onSubmit={handleSubmitSignUp} className="mt-5">
+            <Form.Group controlId="sname">
+              <FloatingLabel
+                controlId="sign-up-sname"
+                label="Username"
+                className="mb-3"
+              >
+                <Form.Control
+                  type="text"
+                  placeholder="Enter your username"
+                  value={formData.sname}
+                  name="sname"
+                  onChange={(e) => handleInputChange(e)}
+                  required
+                />
+              </FloatingLabel>
+            </Form.Group>
 
-        <Form.Group controlId="formBasicEmail">
-          <Form.Label>Email</Form.Label>
-          <Form.Control
-            type="text"
-            placeholder="Enter your email"
-            value={email}
-            name="email"
-            onChange={(e) => setEmail(e.target.value)}
-            required
-            aria-label="Email"
-          />
-        </Form.Group>
+            <Form.Group controlId="semail">
+              <FloatingLabel
+                controlId="sign-up-semail"
+                label="Email"
+                className="mb-3"
+              >
+                <Form.Control
+                  type="text"
+                  placeholder="Enter your email"
+                  value={formData.semail}
+                  name="semail"
+                  onChange={(e) => handleInputChange(e)}
+                  required
+                />
+              </FloatingLabel>
+            </Form.Group>
 
-        <Form.Group controlId="formBasicPassword">
-          <Form.Label>Password</Form.Label>
-          <Form.Control
-            type="password"
-            placeholder="Enter your password"
-            value={password}
-            name="password"
-            onChange={(e) => setPassword(e.target.value)}
-            required
-            aria-label="Password"
-          />
-          {/* Consider adding additional information about password requirements here */}
-        </Form.Group>
+            <Form.Group controlId="spassword">
+              <FloatingLabel
+                controlId="sign-up-spassword"
+                label="Password"
+                className="mb-3"
+              >
+                <Form.Control
+                  type="password"
+                  placeholder="Enter your password"
+                  value={formData.spassword}
+                  name="spassword"
+                  onChange={(e) => handleInputChange(e)}
+                  required
+                />
+              </FloatingLabel>
+            </Form.Group>
 
-        <Form.Group controlId="formBasicWeight">
-          <Form.Label>Weight in KG</Form.Label>
-          <Form.Control
-            type="number"
-            placeholder="Enter your weight in kilograms"
-            value={weight}
-            name="weight"
-            onChange={(e) => setWeight(e.target.value)}
-            required
-            aria-label="Weight"
-          />
-        </Form.Group>
+            <div className="d-flex justify-content-around align-items-center">
+            <Form.Group controlId="sheight">
+              <FloatingLabel
+                controlId="sign-up-sheight"
+                label="Height in CM"
+                className="mb-3"
+              >
+                <Form.Control
+                  type="text"
+                  placeholder="Enter your height in cm"
+                  value={formData.sheight}
+                  name="sheight"
+                  onChange={(e) => handleInputChange(e)}
+                  required
+                />
+              </FloatingLabel>
+            </Form.Group>
 
-        <Form.Group controlId="formBasicHeight">
-          <Form.Label>Height in cm</Form.Label>
-          <Form.Control
-            type="number"
-            placeholder="Enter your height in centimeters"
-            value={height}
-            name="height"
-            onChange={(e) => setHeight(e.target.value)}
-            required
-            aria-label="Height"
-          />
-        </Form.Group>
+            <Form.Group controlId="sweight">
+              <FloatingLabel
+                controlId="sign-up-sweight"
+                label="Weight"
+                className="mb-3"
+              >
+                <Form.Control
+                  type="text"
+                  placeholder="Enter your weight"
+                  value={formData.sweight}
+                  name="sweight"
+                  onChange={(e) => handleInputChange(e)}
+                  required
+                />
+              </FloatingLabel>
+            </Form.Group>
+            </div>
 
-        <Form.Group controlId="formBasicGender">
-          <Form.Label>Gender</Form.Label>
-          <Form.Control
-            as="select"
-            value={gender}
-            onChange={(e) => setGender(e.target.value)}
-            name="gender"
-            required
-            aria-label="Gender"
-          >
-            <option value="M">Male</option>
-            <option value="F">Female</option>
-          </Form.Control>
-        </Form.Group>
+            <div className="d-flex justify-content-around align-items-center">
+            <Form.Group controlId="sgender">
+              <FloatingLabel
+                controlId="sign-up-sgender"
+                label="Gender"
+                className="mb-3"
+              >
+                <Form.Control
+                  type="text"
+                  placeholder="Enter M or F"
+                  value={formData.sgender}
+                  name="sgender"
+                  onChange={(e) => handleInputChange(e)}
+                  required
+                />
+              </FloatingLabel>
+            </Form.Group>
 
-        {error && <p className="text-danger">{error}</p>}
+            <Form.Group controlId="sgoalID">
+              <FloatingLabel
+                controlId="sign-up-sgoalID"
+                label="Goal"
+                className="mb-3"
+              >
+                <Form.Control
+                  type="text"
+                  placeholder="Enter your goal"
+                  value={formData.sgoalID}
+                  name="sgoalID"
+                  onChange={(e) => handleInputChange(e)}
+                  required
+                />
+              </FloatingLabel>
+            </Form.Group>
+            </div>
 
-        <Button variant="primary" type="submit">
-          Sign Up
-        </Button>
-      </Form>
+            {error && <p className="text-danger">{error}</p>}
+
+            <div className="d-flex justify-content-between align-items-center mt-3 p-3">
+              <div className="not-signed-in-message">
+                <p className="h6 text-dark m-0">Have an accoun? </p>
+                <Button onClick={(()=>(navigate('/sign-in')))} size='sm' variant="outline-primary" className="p-0 bg-transparent border-0 text-primary pulse ">Sign In</Button>
+              </div>
+                <button type="submit" className="btn btn-outline-primary pulse sign-up-btn">
+                  Sign Up
+                </button>
+            </div>
+          </Form>
+        </Col>  
+      </Row>
     </Container>
-  );
-};
+  )
+}
 
-export default SignUp;

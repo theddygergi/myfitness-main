@@ -4,7 +4,7 @@ import Footer from './global/Footer';
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
 
-const Home = ({ username }) => {
+const Home = () => { 
   const goalID = localStorage.getItem('goalID');
   let goalType = '';
   if(goalID == 1){
@@ -22,9 +22,9 @@ const Home = ({ username }) => {
   return (
     <div className='home-page'>
       <Header ofPage="home" />
-      <div>
+      { <div>
         Hello, {name}, welcome! Your goal is to {goalType}
-      </div>
+      </div>}
       <Footer />
     </div>
   );

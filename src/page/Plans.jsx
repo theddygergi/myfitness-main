@@ -39,7 +39,7 @@ export default function Plans() {
         <Header ofPage="plans" />
         <ul>
           {plans.map((item, index) => (
-            <li key={index}>{item.exercisename}</li>
+            <li key={index}>{item.exercisename} {item.exercisenbofsets}</li>
           ))}
         </ul>
       </div>
