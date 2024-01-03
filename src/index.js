@@ -9,6 +9,7 @@ import 'bootstrap/dist/js/bootstrap.bundle.min';
 // Styling Of Components
 import './style/global.css';
 import './style/sign.css';
+import './style/home.css'
 import './style/profile.css';
 
 const root = ReactDOM.createRoot(document.getElementById('root'));

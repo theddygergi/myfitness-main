@@ -91,8 +91,9 @@ export default function Header({ofPage,signedIn}) {
   return (
     <div className="header-wrapper m-1  align-items-center">
       <ScrollToTop smooth component={<IoIosArrowUp color="#EB1D25" />} style={{backgroundColor:'#f8f9fa'}}/>
+      <br />
       <div className='d-flex justify-content-between align-items-center header'>
-        <div className="header-item header-logo"><Link to="/" ><Image src={logo} style={{width:'150px',height:'40px',cursor:'pointer' ,opacity:'0.95'}}/></Link></div>
+        <div className="header-item header-logo m-3 mt-0 mb-0"><Link to="/" ><Image src={logo} style={{width:'150px',height:'40px',cursor:'pointer' ,opacity:'0.95'}}/></Link></div>
         <NavMenu ofPage={ofPage} status={signedIn} />
         <NavToggle ofPage={ofPage} status={signedIn} />
       </div>
